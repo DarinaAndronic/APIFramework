@@ -1,6 +1,7 @@
 package Tests;
 
 import Actions.AccountActions;
+import Hooks.Hooks;
 import Objects.RequestObject.RequestAccount;
 import Objects.RequestObject.RequestAccountToken;
 import Objects.ResponseObject.ResponseAccountFailed;
@@ -14,7 +15,7 @@ import io.restassured.specification.RequestSpecification;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class CreateUserTest {
+public class CreateUserV2Test extends Hooks {
 
     public String userID;
     public String username;
@@ -29,8 +30,8 @@ public class CreateUserTest {
         System.out.println("Step 1: create user: ");
          createUser();
 
-//        System.out.println("Step 2: generate token: ");
-//         generateToken();
+        System.out.println("Step 2: generate token: ");
+         generateToken();
 //
 //        System.out.println("Step 3: Optain new user: ");
 //        interractNewUser();
@@ -39,10 +40,6 @@ public class CreateUserTest {
     }
 
     public void createUser() {
-//        //Definim caracteristicile clientului
-//        RequestSpecification requestSpecification= RestAssured.given();
-//        requestSpecification.baseUri("https://demoqa.com");
-//        requestSpecification.contentType("application/json");
 
         accountActions = new AccountActions();
         username = "Darina" + System.currentTimeMillis();
@@ -51,59 +48,12 @@ public class CreateUserTest {
         ResponseAccountsSuccess responseAccountsSuccess=accountActions.createNewAccount(requestAccount);
 
         userID=responseAccountsSuccess.getUserID();
-//
-//        //Configuram request-ul
-//         username="Darina"+System.currentTimeMillis();
-//         password="Darina12345!";
-//
-//        //JSONObject requestbody=new JSONObject();
-////        requestbody.put("userName", username);
-////        requestbody.put("password","Darina12345.=");
-//        RequestAccount requestAccount=new RequestAccount(username, password);
-//        requestSpecification.body(requestAccount);
-
-//        //Accesam response-ul
-//        Response response=requestSpecification.post("/Account/v1/User");
-//        ResponseBody body=response.getBody();
-//        body.prettyPrint();
-//
-//        //Validam statusul request-ului
-//        System.out.println(response.getStatusCode());
-//        Assert.assertEquals(response.getStatusCode(), 201);//principala validare
-//
-//        //validam Response Body
-//        ResponseAccountsSuccess responseAccountsSuccess=response.body().as(ResponseAccountsSuccess.class);
-//        Assert.assertNotNull(responseAccountsSuccess.getUserID());//verificare ca exista o valoare pt acest field
-//        Assert.assertEquals(responseAccountsSuccess.getUsername(), username);//verificam daca username are valoarea din request
-//        Assert.assertNotNull(responseAccountsSuccess.getBooks());
-
-
-//
     }
-
-    //Request care ne genereaza un token (autentificare si autorizare)
-
     public void generateToken(){
-        RequestSpecification requestSpecification= RestAssured.given();
-        requestSpecification.baseUri("https://demoqa.com");
-        requestSpecification.contentType("application/json");
+        accountActions = new AccountActions();
 
         RequestAccountToken requestAccountToken=new RequestAccountToken(username,password);
-        requestSpecification.body(requestAccountToken);
-
-
-        Response response=requestSpecification.post("/Account/v1/GenerateToken");
-        ResponseBody body=response.getBody();
-        body.prettyPrint();
-
-        Assert.assertEquals(response.getStatusCode(), 200);
-        ResponseTokenSuccess responseTokenSuccess=response.body().as(ResponseTokenSuccess.class);
-
-        Assert.assertNotNull(responseTokenSuccess.getToken());
-        Assert.assertNotNull(responseTokenSuccess.getExpires());
-        Assert.assertEquals(responseTokenSuccess.getStatus(),"Success");
-        Assert.assertEquals(responseTokenSuccess.getResult(),"User authorized successfully.");
-
+        ResponseTokenSuccess responseTokenSuccess=accountActions.generateToken(requestAccountToken);
         token=responseTokenSuccess.getToken();
     }
 

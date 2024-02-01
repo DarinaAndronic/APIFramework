@@ -1,12 +1,12 @@
-package ResponseObject;
+package Objects.ResponseObject;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class ResponseAccountsAuthSucces {
-    @JsonProperty("userId") //maparea variabilei
-    private String userId;
+public class ResponseAccountsSuccess {
+    @JsonProperty("userID") //maparea variabilei
+    private String userID;
 
     @JsonProperty("username")
     private String username;
@@ -14,8 +14,8 @@ public class ResponseAccountsAuthSucces {
     @JsonProperty("books")
     private List<BookObject> books;
 
-    public String getUserId() {
-        return userId;
+    public String getUserID() {
+        return userID;
     }
 
     public String getUsername() {

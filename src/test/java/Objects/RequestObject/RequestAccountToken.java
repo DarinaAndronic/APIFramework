@@ -1,10 +1,10 @@
-package RequestObject;
+package Objects.RequestObject;
 
-public class RequestAccount {
+public class RequestAccountToken {
     private String userName;
     private String password;
 
-    public RequestAccount(String userName, String password) {
+    public RequestAccountToken(String userName, String password) {
         this.userName = userName;
         this.password = password;
     }
